@@ -1,6 +1,6 @@
 # Data Football Analytics
 
-![Logo do Projeto](https://via.placeholder.com/800x200.png?text=Data+Football+Analytics)
+![Logo do Projeto](https://github.com/vipessoabarbosa/data_football_analytics/blob/main/assets/images/logo.png)
 
 ## 📖 Descrição do Projeto
 
