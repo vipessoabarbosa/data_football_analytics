@@ -1,0 +1,25 @@
+# Bibliotecas de análise de dados
+pandas==2.2.3
+numpy==2.2.1
+matplotlib==3.10.0
+seaborn==0.13.2
+plotly==5.24.1
+
+# Bibliotecas específicas para futebol
+soccerdata==1.8.4
+mplsoccer==1.4.0
+
+# Bibliotecas para desenvolvimento
+black==24.10.0
+flake8==7.1.1
+pylint==3.3.3
+isort==5.13.2
+
+# Bibliotecas para Jupyter Notebook
+jupyter==1.1.1
+notebook==7.3.2
+ipykernel==6.29.5
+
+# Bibliotecas para relatórios e exportação
+pdfkit==1.0.0
+streamlit==1.41.1

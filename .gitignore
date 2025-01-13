@@ -1,0 +1,17 @@
+# Ambiente Virtual
+.venv/
+__pycache__/
+*.pyc
+
+# Dados e relatórios
+data/raw/*
+data/processed/*
+reports/*
+
+# Notebooks e logs
+.ipynb_checkpoints/
+*.log
+
+# Configurações locais
+.vscode/
+.env
