@@ -8,6 +8,7 @@ plotly==5.24.1
 # Bibliotecas específicas para futebol
 soccerdata==1.8.4
 mplsoccer==1.4.0
+socceraction==1.5.3
 
 # Bibliotecas para desenvolvimento
 black==24.10.0
