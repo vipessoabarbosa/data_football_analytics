@@ -10,6 +10,8 @@ Parte da inspiração vem de projetos como o [**CruzeiroData*](https://cruzeirod
 | Data       | Versão | Descrição da Alteração                     | Autor               |
 | ---------- | ------ | ------------------------------------------ | ------------------- |
 | 12-01-2025 | 1.0    | Criação do documento com estrutura inicial | Vinícius P. Barbosa |
+| 14-01-2025 | 1.1    | Adição do item 10 e 11.                    | Vinícius P. Barbosa |
+| 15-01-2025 | 1.2    | Atualização de informações do projeto      | Vinícius P. Barbosa |
 
 ---
 
@@ -35,6 +37,8 @@ Parte da inspiração vem de projetos como o [**CruzeiroData*](https://cruzeirod
 - **Controle de Versão:** Git + GitHub
 - **Sistema Operacional:** Windows (caminho de trabalho definido)
 
+Para detalhes sobre a configuração do ambiente, consulte o documento [setup_guide.md](https://github.com/vipessoabarbosa/data_football_analytics/blob/main/documentation/setup_guide.md).
+
 ---
 
 ## **3. Estrutura do Projeto**
@@ -45,19 +49,23 @@ E:\Desenvolvimento Profissional\Data Science\Python\Projetos\01_DataFootball\01_
 
 ### **3.1 Estrutura de Diretórios**
 
-data_football_analytics/
+01_data_football_analytics/
 │
 ├── data/
-│   ├── raw/                 # Dados brutos extraídos via `soccerdata`
-│   └── processed/           # Dados limpos e prontos para análise
+│   ├── raw/                 # Dados brutos extraídos via `soccerdata` e `whoscored`
+│   ├── processed/           # Dados limpos e prontos para análise
+│   ├── merged/             # Dados combinados de diferentes fontes
+│   └── derived/            # Tabelas derivadas e transformadas
 │
 ├── notebooks/               # Notebooks Jupyter de exploração e protótipos
 │   ├── Exploratory.ipynb    # Primeiras análises e testes de visualização
 │   └── ...
 │
 ├── src/                     # Códigos-fonte do projeto
-│   ├── data_collection.py   # Rotinas de coleta (web scraping) com `soccerdata`
+│   ├── data_collection.py   # Rotinas de coleta (web scraping) com `soccerdata` e `whoscored`
 │   ├── data_processing.py   # Processamento e limpeza (tratamento de nulos, normalizações)
+│   ├── data_merging.py      # Scripts para combinar dados de diferentes fontes
+│   ├── data_derived_tables.py # Geração de tabelas derivadas
 │   ├── analysis.py          # Cálculo de métricas e análises exploratórias
 │   └── visualization.py     # Funções para gerar gráficos e relatórios
 │
@@ -65,35 +73,51 @@ data_football_analytics/
 │
 ├── tests/ (opcional)        # Scripts de teste para lidar com dados e validação
 │
-├── documentation/            # Pasta dedicada à documentação do projeto
+├── documentation/           # Pasta dedicada à documentação do projeto
 │   ├── project_description.md
-│   └── setup_guide.md
+│   ├── setup_guide.md
+│   └── technical/          # Documentação técnica detalhada
+│       ├── data_dictionary.md
+│       ├── data_standardization.md
+│       ├── pipeline_guide.md
+│       └── analysis_guide.md
 │
 ├── README.md                # Descrição geral do projeto
 ├── requirements.txt         # Lista de dependências (versões das bibliotecas)
 └── .gitignore               # Arquivos e pastas a serem ignorados pelo Git
 
-### **3.2 Destaques de cada arquivo e pasta:**
+### 3.2 Destaques de cada arquivo e pasta
 
 - **`src/data_collection.py`**
-  - **Função**: conterá scripts que utilizam `soccerdata` para extrair estatísticas (jogos, jogadores, eventos) do FBref e WhoScored.
-  - **Sugestão**: configurar funções como `collect_fbref_data()` e `collect_whoscored_data()` para obter dados brutos e armazenar em `data/raw/`.
+  - **Função**: Contém scripts que utilizam `soccerdata` para extrair estatísticas (jogos, jogadores, eventos) do FBref e WhoScored.
+  - **Sugestão**: Configurar funções como `collect_fbref_data()` e `collect_whoscored_data()` para obter dados brutos e armazenar em `data/raw/`.
 
 - **`src/data_processing.py`**
-  - **Função**: limpar dados, tratar valores ausentes, padronizar colunas e nomes de equipes/jogadores.
+  - **Função**: Limpar dados, tratar valores ausentes, padronizar colunas e nomes de equipes/jogadores.
+
+- **`src/data_merging.py`**
+  - **Função**: Scripts para combinar dados de diferentes fontes.
+
+- **`src/data_derived_tables.py`**
+  - **Função**: Geração de tabelas derivadas a partir dos dados processados.
 
 - **`src/analysis.py`**
-  - **Função**: calcular métricas avançadas (por exemplo, percentual de acerto de passes, gols prevenidos pelo goleiro, etc.) e preparar tabelas de comparação entre jogadores.
+  - **Função**: Calcular métricas avançadas (por exemplo, percentual de acerto de passes, gols prevenidos pelo goleiro, etc.) e preparar tabelas de comparação entre jogadores.
 
 - **`src/visualization.py`**
-  - **Função**: criar gráficos de linha, barras, “heatmaps” (com `mplsoccer` ou similar), além de exportar relatórios em PDF/HTML.
+  - **Função**: Criar gráficos de linha, barras, "heatmaps" (com `mplsoccer` ou similar), além de exportar relatórios em PDF/HTML.
 
 - **`notebooks/`**
-  - Local ideal para testes ou prototipagem das análises e geração de insights rápidos. Exemplo: `Exploratory.ipynb`.
+  - **Descrição**: Local ideal para testes ou prototipagem das análises e geração de insights rápidos. Exemplo: `Exploratory.ipynb`.
 
-- **`documentaion/`** (grafia proposital para diferenciar)
-  - `project_description.md`: visão geral do propósito, público-alvo, principais funcionalidades.
-  - `setup_guide.md`: passo a passo de instalação das dependências, configuração de ambiente Python, ativação de ambiente virtual, etc.
+- **`documentation/`**
+  - **`project_description.md`**: Visão geral do propósito, público-alvo, principais funcionalidades.
+  - **`setup_guide.md`**: Passo a passo de instalação das dependências, configuração de ambiente Python, ativação de ambiente virtual, etc.
+  - **`technical/`**:
+    - **`data_dictionary.md`**: Descrição detalhada das colunas e tabelas utilizadas.
+    - **`data_standardization.md`**: Diretrizes para padronização de dados.
+    - **`pipeline_guide.md`**: Orientações sobre o fluxo de trabalho do projeto.
+    - **`analysis_guide.md`**: Guias para análises específicas e melhores práticas.
 
 ---
 
@@ -101,6 +125,7 @@ data_football_analytics/
 
 1. **Configuração Inicial**
    - Criação de ambiente virtual e instalação das dependências listadas em `requirements.txt`.
+   - Para detalhes, consulte o documento [setup_guide.md](https://github.com/vipessoabarbosa/data_football_analytics/blob/main/documentation/setup_guide.md).
    - Ajustes na biblioteca `soccerdata` (definição de ligas, temporadas, etc.).
 
 2. **Coleta de Dados**
@@ -182,9 +207,105 @@ Embora este projeto seja planejado para alguém com pouca experiência na área 
 
 ---
 
+## **10. Definições Técnicas**
+
+### Estrutura de Diretórios
+
+- **Raiz**: `E:\Profissional\Science\01_Data_Football\01_datafootballanalytics`
+- **Subdiretórios**:
+  - `data/` – Dados brutos (`raw`) e processados (`processed`)
+  - `notebooks/` – Jupyter Notebooks para análises exploratórias
+  - `src/` – Scripts Python (coleta, processamento, visualização)
+  - `tests/` – Testes (opcional)
+  - `reports/` – Relatórios finais (PDF, HTML)
+  - `documentation/` – Documentação técnica
+
+- **Nomenclatura**:
+  - Diretórios em *lowercase* sem espaços
+  - Arquivos em *snake_case* (ex: `data_collection.py`)
+  - Notebooks numerados (ex: `01_exploratory.ipynb`)
+
+### Padrões de Desenvolvimento
+
+- **Código**:
+  - Formatação automática com *Black*
+  - Linting com *Pylint* e *Flake8*
+  - Organização de imports com *isort*
+  - Comprimento de linha livre
+  - Docstrings no estilo *NumPy* para funções e classes
+
+- **Funções**:
+  - Modularização por arquivos específicos (ex: `datacollection.py`, `dataprocessing.py`, `analysis.py`, `visualization.py`)
+  - Funções com responsabilidade única
+  - Documentação obrigatória (*docstrings*)
+
+### Configurações de Dados
+
+- **Fontes**:
+  - *FBref*: Estatísticas e eventos gerais
+  - *WhoScored*: Coordenadas e eventos detalhados
+
+- **Armazenamento**:
+  - `data/raw`: Dados brutos
+  - `data/processed`: Dados limpos e normalizados
+
+### Controle de Versão
+
+- **Git**:
+  - Ignorar arquivos no `.gitignore` (ex: `.venv`, `__pycache__`)
+  - Uso de branches para desenvolvimento (`main`, `dev`, feature branches)
+  - Mensagens de commit seguindo convenções (*feat*, *fix*, *docs*)
+
+- **Versionamento de Dados**:
+  - Backup de dados brutos (opcional)
+  - Versionamento de datasets processados (opcional)
+
+### Performance
+
+- **Otimizações**:
+  - Processamento em lotes
+  - Caching de dados frequentemente acessados
+  - Paralelização conforme necessário
+
+### Documentação
+
+- **Código**:
+  - Docstrings em funções e classes (*NumPy*)
+  - Comentários explicativos
+  - *README* com instruções (opcional)
+
+- **Análises**:
+  - Decisões técnicas e parâmetros documentados
+  - Registro de configurações das análises
+  - Explicação de métricas e cálculos usados
+
+- **Notebooks**:
+  1. Título e Descrição
+  2. Importação de Bibliotecas
+  3. Carregamento de Dados
+  4. Análises e Visualizações
+  5. Conclusões
+
+- **Comentários**:
+  - Linha Única: `# comentário breve`
+  - Bloco: várias linhas com `#`
+  - Inline: final da linha de código
+  - Consistência no uso de português
+
+---
+
+## **11. Referências aos Documentos Produzidos**
+
+| Documento                  | Descrição                                                                        |
+| -------------------------- | -------------------------------------------------------------------------------- |
+| **project_description.md** | Visão geral do projeto, objetivos, estrutura e etapas.                           |
+| **setup_guide.md**         | Instruções detalhadas para configurar o ambiente e ferramentas necessárias.      |
+| **README.md**              | Descrição do projeto, funcionalidades, e como rodar e contribuir para o projeto. |
+
+---
+
 Este projeto combina ferramentas modernas e acessíveis para análise de futebol, fornecendo uma **base sólida** para adentrar o universo de dados esportivos. A estrutura modular e a documentação clara possibilitam **crescimento gradativo**, permitindo que o(a) desenvolvedor(a) implemente novas métricas e gráficos conforme for ganhando experiência. Espera-se que este trabalho sirva como ponto de partida para análises estatísticas cada vez mais ricas, gerando insights estratégicos para o esporte e contribuindo para o desenvolvimento profissional na área de Ciência de Dados.
 
 ---
 
 **Autor: Vinícius P. Barbosa**
-*Última atualização: 10 de janeiro de 2025*
